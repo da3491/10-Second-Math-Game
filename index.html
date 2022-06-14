@@ -17,14 +17,24 @@
   <body>
     <div class="container">
       <div>
+        <div>High Score: <span id="high-score"></span></div>
         <div>Score: <span id="score"></span></div>
         <div>Time: <span id="timer"></span></div>
       </div>
-      <div id="question">Question goes here</div>
-      <div id="user-input">
+      <div id="question">Get Ready!</div>
+      <input
+        type="range"
+        min="10"
+        max="50"
+        step="5"
+        value="10"
+        class="slider"
+      />
+      <div class="slider-value"></div>
+      <form id="user-input">
         <input class="guess" type="text" />
         <button class="guess">Guess</button>
-      </div>
+      </form>
       <button id="play-btn" class="hidden">play again</button>
     </div>
   </body>
