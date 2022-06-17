@@ -17,9 +17,10 @@
 
 $(document).ready(function () {
   var playerScore = 0;
-  var seconds = 10;
+  var seconds = 30;
   var timer = null;
   var highScore = 0;
+  var operand = "+";
 
   var updateDom = function () {
     $("#score").text(playerScore);
@@ -29,65 +30,98 @@ $(document).ready(function () {
   };
   updateDom();
 
-  var createEquation = function () {
-    var operand = ["+", "-", "*", "/"];
-    randomOp = operand[Math.floor(Math.random() * 3)];
+  // Creates an equation and arranges it for positive value results
+  var createEquation = function (opInput) {
+    console.log(opInput);
+    if (opInput == "random") {
+      var operand = ["+", "-", "*", "/"];
+      opInput = operand[Math.floor(Math.random() * 3)];
+    }
     var a = Math.floor(Math.random() * $("input.slider").val() + 1);
     var b = Math.floor(Math.random() * $("input.slider").val() + 1);
-    if (randomOp == "-" || randomOp == "/") {
+    if (opInput == "-" || opInput == "/") {
       if (b > a) {
-        $("#question").text(b + " " + randomOp + " " + a);
-        return eval(b + randomOp + a);
+        $("#question").text(b + " " + opInput + " " + a);
+        return eval(b + opInput + a);
       }
     } else {
-      $("#question").text(a + " " + randomOp + " " + b);
-      return eval(a + randomOp + b);
+      $("#question").text(a + " " + opInput + " " + b);
+      return eval(a + opInput + b);
     }
   };
 
+  var endGame = function () {
+    // updateHighScore
+    if (playerScore > highScore) {
+      highScore = playerScore;
+      playerScore = 0;
+    }
+    // disable input
+    $(".guess").prop("disabled", true);
+    // show play again button
+    $("#play-again").removeClass("visually-hidden");
+  };
+
+  // Starts a timer and handles state when over
   var startTimer = function () {
     if (!timer) {
       timer = setInterval(function () {
         seconds--;
+        console.log(seconds);
         updateDom();
-        if (seconds <= 0) {
-          clearInterval(timer);
-          timer = null;
-          highscore =
-            playerScore > highScore ? (highScore = playerScore) : playerScore;
-          $(".guess").prop("disabled", true);
-          $("#play-btn").removeClass("hidden");
+        if (seconds == 0) {
+          stopTimer();
+          endGame();
         }
       }, 1000);
     }
   };
 
+  var stopTimer = function () {
+    clearInterval(timer);
+    timer = null;
+  };
+
+  // Handles the users input
   var processAnswer = function (answer) {
-    if (answer == solution) {
-      playerScore++;
-      seconds++;
-      solution = createEquation();
-      updateDom();
-      return true;
-    } else {
-      return false;
+    if (timer) {
+      if (answer == solution) {
+        playerScore++;
+        seconds++;
+        $("input.guess").val("");
+        solution = createEquation(operand);
+        updateDom();
+        return true;
+      } else {
+        return false;
+      }
     }
   };
 
   // Timer starts when input changes or button is clicked
   $("#user-input").on("click change", ".guess", function () {
-    if (seconds > 0) {
+    if (!timer) {
+      console.log(operand);
       startTimer();
-      solution = createEquation();
+      solution = createEquation(operand);
     }
   });
+
   // Processes players guess on click
   $("button.guess").on("click submit", function (e) {
     e.preventDefault();
     processAnswer($("input.guess").val());
   });
 
+  // Dynamically displaying slider
   $(".slider").on("input", function () {
     updateDom();
+  });
+
+  // Selecting operand for equation
+  $("#operand-choice").on("click", "span.operand", function () {
+    $("span.operand").not(this).removeClass("text-primary");
+    $(this).addClass("text-primary");
+    operand = $(this).text();
   });
 });
