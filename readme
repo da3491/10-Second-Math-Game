@@ -1,0 +1,28 @@
+**Base Features**
+*1. An input for the user to type the answer.
+*2. An element displaying the current math equation question.
+*3. Equations uses "+" operator only.
+*4. A count down for the time left.
+*5. The game starts when the user clicks a button or starts typing in the input.
+*6. The game ends when the user runs out of time.
+*7. When the user makes a correct guess, add 1 second to the available time left.
+*8. The current score is shown. 9. A way to restart the game if time runs out.
+
+**Extra Features**
+
+*1. Multiple question types (+, -, \*, /).
+*a. Make sure (-) questions always have positive whole number answers.
+*b. Make sure (/) questions always have positive whole number answers.
+*2. Number limit for the user to set.
+\*3. High score indicator for the high score in the current session.
+
+**Bugs**
+-Sometimes the timer does not stop at 0 and continues negatively
+-a. Attempt to resovle with while loop seconds > 0
+--- Triggers endgame loop, but is only called when seconds == 0
+--- Timer goes from 10 to 0, must not be the correct usage
+-b. Realize it is not always calling stopTimer function, order is correct. Leads to believe that its skipping over the endtimer to run endgame?
+--- Inside the stoptimer function i put a timer check to confirm its not null, and then perform function.
+--- It does pass the check inside stoptimer. After previous starttimer runs into endgame. Seconds then displays 0 and continues on. Seems like an unfinished process is resolving.
+--- Refer to timer section to see i did not use window prefix in my clearinterval call.
+--- Testing: It passed without issues for a while, but it did happen...curious and a bit difficult to figure out the cause when its so sporadic.

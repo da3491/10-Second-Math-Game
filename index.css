@@ -1,3 +1,7 @@
+body {
+  background: linear-gradient(90deg, #ccc, rgb(77, 102, 227));
+}
+
 .clock {
   font-size: 30px;
 }
@@ -13,4 +17,14 @@
 
 #user-input.button {
   height: 30px;
+}
+
+.card {
+  width: 300px;
+  height: 350px;
+}
+
+#question {
+  width: 350px;
+  background: linear-gradient(90deg, transparent, #eee, transparent);
 }
