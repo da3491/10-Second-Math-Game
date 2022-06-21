@@ -27,3 +27,4 @@
 --- Refer to timer section to see i did not use window prefix in my clearinterval call.
 --- Testing: It passed without issues for a while, but it did happen...curious and a bit difficult to figure out the cause when its so sporadic.
 --- Returning endgame from starttimer to hopefully leave the function
+-c. Final resolution was to create a variable to track state of can/cant play.
