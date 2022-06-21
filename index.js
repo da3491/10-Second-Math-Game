@@ -4,6 +4,7 @@ $(document).ready(function () {
   var timer = null;
   var highScore = 0;
   var operand = "+";
+  var canPlay = true;
 
   var updateDom = function () {
     $("#score").text(playerScore);
@@ -57,16 +58,20 @@ $(document).ready(function () {
         seconds--;
         updateDom();
         if (seconds == 0) {
+          canPlay = false;
           stopTimer();
-          endGame();
+          return endGame();
         }
       }, 1000);
     }
   };
 
+  // BUG: Does not work correctly
   var stopTimer = function () {
-    window.clearInterval(timer);
-    timer = null;
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
   };
 
   // Handles the users input
@@ -87,7 +92,7 @@ $(document).ready(function () {
 
   // Timer starts when input changes or button is clicked
   $("#user-input").on("click change", ".guess", function () {
-    if (!timer) {
+    if (!timer && canPlay) {
       startTimer();
       solution = createEquation(operand);
     }
@@ -104,7 +109,7 @@ $(document).ready(function () {
     updateDom();
   });
 
-  // Selecting operand for equation
+  // Selecting a single operand for equation
   $("#operand-choice").on("click", "span.operand", function () {
     $("span.operand").not(this).removeClass("text-primary");
     $(this).addClass("text-primary");
@@ -119,6 +124,7 @@ $(document).ready(function () {
   // Play again button
   $("#play-again").on("click", "button", function () {
     seconds = 10;
+    canPlay = true;
     // updateHighScore
     if (playerScore > highScore) {
       highScore = playerScore;

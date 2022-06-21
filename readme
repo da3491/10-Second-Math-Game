@@ -20,9 +20,10 @@
 -Sometimes the timer does not stop at 0 and continues negatively
 -a. Attempt to resovle with while loop seconds > 0
 --- Triggers endgame loop, but is only called when seconds == 0
---- Timer goes from 10 to 0, must not be the correct usage
--b. Realize it is not always calling stopTimer function, order is correct. Leads to believe that its skipping over the endtimer to run endgame?
+--- Timer goes from 10 to 0, must not be the incorrect usage
+-b. Realize it is not always performing stopTimer function, order is correct. Leads to believe that its skipping over the endtimer to run endgame?
 --- Inside the stoptimer function i put a timer check to confirm its not null, and then perform function.
 --- It does pass the check inside stoptimer. After previous starttimer runs into endgame. Seconds then displays 0 and continues on. Seems like an unfinished process is resolving.
 --- Refer to timer section to see i did not use window prefix in my clearinterval call.
 --- Testing: It passed without issues for a while, but it did happen...curious and a bit difficult to figure out the cause when its so sporadic.
+--- Returning endgame from starttimer to hopefully leave the function
