@@ -42,7 +42,6 @@ $(document).ready(function () {
   };
 
   var endGame = function () {
-    console.log("-> endgame");
     // disable input
     $(".guess").prop("disabled", true);
     // show play again button
@@ -66,7 +65,6 @@ $(document).ready(function () {
     }
   };
 
-  // BUG: Does not work correctly
   var stopTimer = function () {
     if (timer) {
       window.clearInterval(timer);
@@ -132,6 +130,7 @@ $(document).ready(function () {
     }
     $("#question").text("Get Ready!");
     $(".guess").prop("disabled", false);
+    $("#play-again").addClass("visually-hidden");
     updateDom();
   });
 });
